@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品种类</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="libs/css/style.css">
+</head>
+<body class="layui-layout-body layui-list">
+
+<div id="password" class="pd-20 hide layui-form">
+    <form class="form form-horizontal" onsubmit="return false;" novalidate="novalidate">
+        <div class="layui-row clearfix">
+            <label class="form-label layui-col-xs4 layui-col-sm3">品牌：</label>
+            <div class="formControls layui-col-xs8">
+                <select name="sid" id="sid" lay-filter="search_type">
+                    <option value="">请选择品牌</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-row clearfix">
+            <input type="text" hidden="hidden" name="tid" id="tid">
+            <label class="form-label layui-col-xs4 layui-col-sm3">种类：</label>
+            <div class="formControls layui-col-xs8">
+                <input type="text" class="input-text" autocomplete="off" placeholder="品牌" name="tname" id="tname"
+                       lay-verify="required" aria-required="true">
+            </div>
+        </div>
+
+        <div class="layui-upload col-sm-9">
+            <button type="button" class="layui-btn" id="test2">选择图片</button>
+            <!--<button class="layui-btn" id="btn">上传</button>-->
+            <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+                预览图：
+                <div class="layui-upload-list" id="ImgPreview"></div>
+            </blockquote>
+        </div>
+
+        <div class="layui-row clearfix">
+            <div class="layui-col-xs8 layui-col-sm9 layui-col-xs-offset4 layui-col-sm-offset3">
+                <input class="layui-btn layui-btn-red layui-btn-sm" lay-submit lay-filter="updatepwd" type="submit"
+                       value="提交" id="updatepwd">
+            </div>
+        </div>
+    </form>
+</div>
+
+<div style="padding-top: 10px">
+    <form class="layui-form left" onsubmit="return false;">
+        <div class="layui-inline user-title2">
+            <label class="layui-form-label">品牌</label>
+            <div class="layui-input-block">
+                <select name="sid" id="role" lay-filter="search_type">
+                    <option value="">请选择品牌</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <div class="layui-inline user-title1">
+                <label class="layui-form-label">种类</label>
+                <div class="layui-input-block">
+                    <input type="text" name="tname" placeholder="请输入商品种类" autocomplete="off" id="userValue"
+                           class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <button type="button" lay-filter="search" lay-submit="" class="layui-btn layui-btn-sm"><i
+                        class="layui-icon layui-icon-search" formnovalidate></i>搜索
+                </button>
+            </div>
+
+            <div class="layui-inline">
+                <button type="button" class="layui-btn layui-btn-sm" id="addkind">
+                    <i class="layui-icon layui-icon-addition" formnovalidate></i>新增种类
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<div>
+    <table class="layui-table lay-even=" lay-filter="kindTable" id="kindTable"></table>
+</div>
+<script src="layui/layui.js"></script>
+<script>
+    //JavaScript代码区域
+    layui.use(["table", "form", "element", "jquery", "upload"], function () {
+        // 加载表格
+        var table = layui.table
+            , form = layui.form
+            , element = layui.element
+            , $ = layui.jquery
+            , upload = layui.upload;
+        form.render();
+
+        upload.render({
+            elem: '#test2'
+            , url: 'picture',
+           //  multiple: false,
+            accept: "image",
+            auto: false,
+            acceptMime: 'image/*',
+            bindAction: "#updatepwd",
+            choose: function (obj) {
+                //预读本地文件示例，不支持ie8
+                var files = obj.pushFile();
+                obj.preview(function (index, file, result) {
+                    $('#ImgPreview').append('<div class="image-container" id="container' + index + '"><div class="delete-css"><button id="upload_img_' + index + '" class="layui-btn layui-btn-danger layui-btn-xs">删除</button></div>\n' +
+                        '<img id="showImg' + index + '" style="width: 150px; margin:10px;cursor:pointer;" src="' + result + '" alt="' + file.name + '" ></div>')
+                    $("#upload_img_" + index).bind('click', function () {
+                        delete files[index];
+                        // delete files[$(this).prev().attr("index")];//从图片数组中删除元素。根据下标删除
+                        $("#container" + index).remove();
+                    });
+                });
+            }, allDone: function (obj) { //当文件全部被提交后，才触发
+                // alert('已成功上传'+obj.total+'张图片');
+            }
+        })
+
+        table.render({
+            id: "kindTable",
+            elem: "#kindTable",
+            method: "get",
+            url: "listSecond",
+            width: 1000,
+            cols: [
+                [
+                    //  {type: "checkbox", fixed: "left", width: 50},
+                    {type: "numbers", title: "序号", width: 80},
+                    {field: "tid", title: "ID", width: 50, hide: true},
+                    {field: "sid", title: "ID", width: 50, hide: true},
+                    {
+                        field: "sname", title: "品牌", align: "center", templet: function (item) {
+                            return item.jpmpStair.sname;
+                        }
+                    },
+                    {field: "tname", title: "种类", align: "center"},
+                    {field: "createTime", title: "创建时间", align: "center"},
+                    {field: 'ICON', title: "操作", align: "center", toolbar: '#userBar', width: 200},
+                ]
+            ],
+            page: {
+                limit: 20,
+                limits: [20, 30, 40, 50, 100],
+                prev: "上一页",
+                next: "下一页"
+            },
+            request: {
+                pageName: "pageNumber",
+                limitName: "pageSize"
+            },
+            response: {
+                statusCode: 200
+            },
+            parseData: function (res) {
+                console.log(res);
+                return {
+                    "code": 200,
+                    "count": res.total,
+                    "data": res.list
+                }
+            }, done: function (res) {
+                table_data = res.data;
+            },
+            height: "full-40"
+        });
+
+
+        $.ajax({
+            url: 'Stair',
+            dataType: 'json',
+            type: 'get',
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    $('#role').append(new Option(item.sname, item.sid));// 下拉菜单里添加元素
+                });
+                layui.form.render("select");//重新渲染 固定写法
+
+            }
+        })
+
+        // 搜索提示
+        form.on("submit(search)", function (data) {
+            var index = layer.msg('查询中，请稍候...', {icon: 16, time: false, shade: 0});
+            setTimeout(function () {
+                table.reload('kindTable', { //表格的id
+                    url: "listSecond",
+                    where: {
+                        'tname': data.field.tname,
+                        'sid': data.field.sid
+                    }
+                });
+                layer.close(index);
+            }, 400);
+        });
+
+
+        //监听工具条
+        table.on('tool(kindTable)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('删除种类会删除所属种类下的商品,确认删除吗？', function (index) {
+                    obj.del();
+                    layer.close(index);
+                    //向服务器发送指令
+                    $.ajax({
+                        url: "deleteSecond",
+                        data: {
+                            "tid": data.tid
+                        },
+                        type: "GET",
+                        dataType: "json",
+                        success: function (msg) {
+                            layer.msg(msg.resp_msg, {icon: 1, time: 1500});
+                        },
+                        error: function (error) {
+                            alert("异常");
+                        }
+                    });
+                });
+            } else if (obj.event === 'edit') {
+
+                $.ajax({
+                    url: 'Stair',
+                    dataType: 'json',
+                    type: 'get',
+                    success: function (datc) {
+                        $.each(datc, function (index, item) {
+                            if (item.sid == data.sid) {
+                                $('#sid').append(new Option(item.sname, item.sid, true, true));// 下拉菜单里添加元素
+                            } else {
+                                $('#sid').append(new Option(item.sname, item.sid));// 下拉菜单里添加元素
+                            }
+                        });
+                        layui.form.render("select");//重新渲染 固定写法
+                    }
+                });
+                $("#tid").val(data.tid);
+                $("#tname").val(data.tname);
+                $.ajax({
+                    url: 'listPicture?type=1&&fid='+data.tid,
+                    type: 'get',
+                    success: function (dataz) {
+                        // console.log(dataz)
+                        $.each(dataz, function (index, item) {
+                            $('#ImgPreview').append('<div class="image-container" id="container' + index + '"><div class="delete-css"><button id="upload_img_' + index + '"  value="' + item.pid + '" class="layui-btn layui-btn-danger layui-btn-xs">删除</button></div>\n' +
+                                '<img id="showImg' + index + '" style="width: 150px; margin:10px;cursor:pointer;" src="' + item.pname + '" alt="' + item.pname + '" ></div>')
+                            $("#upload_img_" + index).bind('click', function () {
+                                var pid = $("#upload_img_" + index).val();
+                                $.ajax({
+                                    url: 'deletePictrue',
+                                    data: {pid: pid},
+                                    type: 'get',
+                                    success: function (dataa) {
+                                        $("#container" + index).remove();
+                                    }
+                                });
+
+                            });
+                        });
+
+                    }
+                });
+                layer.open({
+                    type: 1,
+                    title: "修改种类",
+                    area: ["1000px", "650px"],
+                    move: false,
+                    content: $("#password"),
+                    end: function () {  //刷新页面
+                        location.reload();
+                    }
+                });
+            }
+        });
+
+        form.on('submit(updatepwd)', function (data) {
+            $.ajax({
+                url: "saveSencond",
+                data: data.field,
+                type: "POST",
+                dataType: "json",
+                success: function (msg) {
+                   /* console.log(msg)
+                    layer.closeAll();
+                    layer.msg(msg.resp_msg, {icon: 1, time: 3000}, function () {
+                      //  parent.layui.layer.closeAll();
+                        //parent.window.location.href = "skip?table=brand";
+                    });*/
+                    $.ajax({//绑定
+                        url: "picturecid?type=1&&fid=" + msg.datas,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (msg2) {
+                            layer.msg("操作成功", {icon: 1, time: 3000}, function () {
+                                setTimeout(function () {
+                                    layer.closeAll();
+                                }, 200);
+                                //  console.log(msg.resp_code)
+                                // parent.layui.layer.closeAll();
+                                //parent.window.location.href = "skip?table=brand";
+                            });
+                        }
+                    });
+                },
+                error: function (error) {
+                    alert("异常")
+                }
+            });
+
+            return false;
+        });
+
+        $("#addkind").click(function () {
+            $.ajax({
+                url: 'Stair',
+                dataType: 'json',
+                type: 'get',
+                success: function (datc) {
+                    $.each(datc, function (index, item) {
+                        $('#sid').append(new Option(item.sname, item.sid));// 下拉菜单里添加元素
+                    });
+                    layui.form.render("select");//重新渲染 固定写法
+                }
+            })
+            layer.open({
+                type: 1,
+                title: "新增种类",
+                area: ["1000px", "650px"],
+                move: false,
+                content: $("#password"),
+                end: function () {  //刷新页面
+                    location.reload();
+                }
+            });
+        });
+
+
+    })
+</script>
+<script type="text/html" id="userBar">
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
+            class="layui-icon layui-icon-delete"></i>删除</a>
+</script>
+
+</body>
+</html>

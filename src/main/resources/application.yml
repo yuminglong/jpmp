@@ -1,0 +1,26 @@
+spring:
+    datasource:
+       # driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://114.116.174.5:3306/jpmp?serverTimezone=Asia/Shanghai
+        username: root
+        password: jiebao@2008
+
+    #静态资源
+    resources:
+        static-locations: classpath:/static/   ,file:D:/jpmp/picture/
+
+
+mybatis-plus:
+    mapper-locations: classpath:/mapper/*.xml
+    #实体扫描，多个package用逗号或者分号分隔
+    typeAliasesPackage: com.jiebao.wechat.model
+    global-config:
+        db-config:
+            id-type: auto
+
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+    autoRuntimeDialect: trues

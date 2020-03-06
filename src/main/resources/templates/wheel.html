@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品种类</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="libs/css/style.css">
+</head>
+<body class="layui-layout-body layui-list">
+
+<div style="padding-top: 10px">
+    <form class="layui-form left" onsubmit="return false;">
+        <div class="layui-upload col-sm-9" style="width: 500px;text-align: center">
+            <button type="button" class="layui-btn" id="test2">选择图片</button>
+            <!--<button class="layui-btn" id="btn">上传</button>-->
+            <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+                预览图：
+                <div class="layui-upload-list" id="ImgPreview"></div>
+            </blockquote>
+        </div>
+
+    </form>
+</div>
+<div>
+    <table class="layui-table lay-even=" lay-filter="commodityTable" id="commodityTable"></table>
+</div>
+<script src="layui/layui.js"></script>
+<script>
+    //JavaScript代码区域
+    layui.use(["table", "form", "element", "jquery", "upload"], function () {
+        // 加载表格
+        var table = layui.table
+            , form = layui.form
+            , element = layui.element
+            , $ = layui.jquery
+            , upload = layui.upload;
+        form.render();
+
+
+        upload.render({
+            elem: '#test2'
+            , url: 'picture?type=3'
+            , multiple: true,
+            accept: "image",
+            auto: true,
+            number: 0,
+            acceptMime: 'image/*',
+            choose: function (obj) {
+                //预读本地文件示例，不支持ie8
+                var files = obj.pushFile();
+                obj.preview(function (index, file, result) {
+                    $('#ImgPreview').append('<div class="image-container" id="container' + index + '"><div class="delete-css"><button id="upload_img_' + index + '" class="layui-btn layui-btn-danger layui-btn-xs">删除</button></div>\n' +
+                        '<img id="showImg' + index + '" style="width: 150px; margin:10px;cursor:pointer;" src="' + result + '" alt="' + file.name + '" ></div>')
+                    $("#upload_img_" + index).bind('click', function () {
+                        delete files[index];
+                        // delete files[$(this).prev().attr("index")];//从图片数组中删除元素。根据下标删除
+                        $("#container" + index).remove();
+                    });
+                });
+            }, allDone: function (obj) { //当文件全部被提交后，才触发
+                // alert('已成功上传'+obj.total+'张图片');
+            }
+        });
+
+        $.ajax({
+            url: 'listPicture?type=3&&fid=0',
+            type: 'get',
+            success: function (dataz) {
+                // console.log(dataz)
+                $.each(dataz, function (index, item) {
+                    $('#ImgPreview').append('<div class="image-container" id="container' + index + '"><div class="delete-css"><button id="upload_img_' + index + '"  value="' + item.pid + '" class="layui-btn layui-btn-danger layui-btn-xs">删除</button></div>\n' +
+                        '<img id="showImg' + index + '" style="width: 150px; margin:10px;cursor:pointer;" src="' + item.pname + '" alt="' + item.pname + '" ></div>')
+                    $("#upload_img_" + index).bind('click', function () {
+                        var pid = $("#upload_img_" + index).val();
+                        $.ajax({
+                            url: 'deletePictrue',
+                            data: {pid: pid},
+                            type: 'get',
+                            success: function (dataa) {
+                                $("#container" + index).remove();
+                            }
+                        });
+
+                    });
+                });
+
+            }
+        });
+
+
+    });
+</script>
+<script type="text/html" id="userBar">
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
+            class="layui-icon layui-icon-delete"></i>删除</a>
+</script>
+
+</body>
+</html>
