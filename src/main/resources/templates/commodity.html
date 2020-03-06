@@ -16,7 +16,7 @@
         <div class="layui-row clearfix">
             <label class="form-label layui-col-xs4 layui-col-sm3">品牌：</label>
             <div class="formControls layui-col-xs8">
-                <select name="sid" id="sid" lay-filter="search_typestair">
+                <select name="sid" deleteCommodity id="sid" lay-filter="search_typestair">
                     <option value="">请选择品牌</option>
                 </select>
             </div>
@@ -267,7 +267,7 @@
                         type: "GET",
                         dataType: "json",
                         success: function (msg) {
-                            layer.msg(msg.resp_msg, {icon: 1, time: 1500});
+                            layer.msg(msg, {icon: 1, time: 1500});
                         },
                         error: function (error) {
                             alert("异常");
@@ -365,21 +365,28 @@
                 success: function (msg) {
                     // console.log(msg.datas)
                     //layer.closeAll();
-                    $.ajax({//绑定
-                        url: "picturecid?type=2&&fid=" + msg.datas,
-                        type: "GET",
-                        dataType: "json",
-                        success: function (msg2) {
-                            layer.msg("操作成功", {icon: 1, time: 3000}, function () {
-                                setTimeout(function () {
-                                    layer.closeAll();
-                                }, 400);
-                                //  console.log(msg.resp_code)
-                                // parent.layui.layer.closeAll();
-                                //parent.window.location.href = "skip?table=brand";
-                            });
-                        }
-                    });
+                    if (msg != 0) {
+                        $.ajax({//绑定
+                            url: "picturecid?type=2&&fid=" + msg,
+                            type: "GET",
+                            dataType: "json",
+                            success: function (msg2) {
+                                layer.msg("操作成功", {icon: 1, time: 3000}, function () {
+                                    setTimeout(function () {
+                                        layer.closeAll();
+                                    }, 400);
+                                    //  console.log(msg.resp_code)
+                                    // parent.layui.layer.closeAll();
+                                    //parent.window.location.href = "skip?table=brand";
+                                });
+                            }
+                        });
+                    } else {
+                        layer.msg("图片未绑定", {icon: 1, time: 3000}, function () {
+                            layer.closeAll();
+                        });
+                    }
+
 
                 },
                 error: function (error) {

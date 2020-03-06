@@ -16,7 +16,7 @@
         <div class="layui-row clearfix">
             <input type="text" hidden="hidden" name="sid" id="sid">
             <label class="form-label layui-col-xs4 layui-col-sm3">品牌：</label>
-            <div class="formControls layui-col-xs8">
+            <div class="fosaveStairrmControls layui-col-xs8">
                 <input type="text" class="input-text" autocomplete="off" placeholder="品牌" name="sname" id="sname"
                        lay-verify="required" minlength="20" maxlength="46" aria-required="true">
             </div>
@@ -130,7 +130,7 @@
                         type: "GET",
                         dataType: "json",
                         success: function (msg) {
-                            layer.msg(msg.resp_msg, {icon: 1, time: 1500});
+                            layer.msg(msg, {icon: 1, time: 1500});
                         },
                         error: function (error) {
                             alert("异常");
@@ -162,7 +162,7 @@
                 success: function (msg) {
                     console.log(msg)
                     layer.closeAll();
-                    layer.msg(msg.resp_msg, {icon: 1, time: 3000}, function () {
+                    layer.msg(msg, {icon: 1, time: 3000}, function () {
                         parent.layui.layer.closeAll();
                         //parent.window.location.href = "skip?table=brand";
                     });

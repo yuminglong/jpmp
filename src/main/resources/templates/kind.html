@@ -100,7 +100,7 @@
         upload.render({
             elem: '#test2'
             , url: 'picture',
-           //  multiple: false,
+            //  multiple: false,
             accept: "image",
             auto: false,
             acceptMime: 'image/*',
@@ -216,7 +216,7 @@
                         type: "GET",
                         dataType: "json",
                         success: function (msg) {
-                            layer.msg(msg.resp_msg, {icon: 1, time: 1500});
+                            layer.msg(msg, {icon: 1, time: 1500});
                         },
                         error: function (error) {
                             alert("异常");
@@ -243,7 +243,7 @@
                 $("#tid").val(data.tid);
                 $("#tname").val(data.tname);
                 $.ajax({
-                    url: 'listPicture?type=1&&fid='+data.tid,
+                    url: 'listPicture?type=1&&fid=' + data.tid,
                     type: 'get',
                     success: function (dataz) {
                         // console.log(dataz)
@@ -286,27 +286,30 @@
                 type: "POST",
                 dataType: "json",
                 success: function (msg) {
-                   /* console.log(msg)
-                    layer.closeAll();
-                    layer.msg(msg.resp_msg, {icon: 1, time: 3000}, function () {
-                      //  parent.layui.layer.closeAll();
-                        //parent.window.location.href = "skip?table=brand";
-                    });*/
-                    $.ajax({//绑定
-                        url: "picturecid?type=1&&fid=" + msg.datas,
-                        type: "GET",
-                        dataType: "json",
-                        success: function (msg2) {
-                            layer.msg("操作成功", {icon: 1, time: 3000}, function () {
-                                setTimeout(function () {
-                                    layer.closeAll();
-                                }, 200);
-                                //  console.log(msg.resp_code)
-                                // parent.layui.layer.closeAll();
-                                //parent.window.location.href = "skip?table=brand";
-                            });
-                        }
-                    });
+                    /* console.log(msg)
+                     layer.closeAll();
+                     layer.msg(msg.resp_msg, {icon: 1, time: 3000}, function () {
+                       //  parent.layui.layer.closeAll();
+                         //parent.window.location.href = "skip?table=brand";
+                     });*/
+                    if (msg != 0) {
+                        $.ajax({//绑定
+                            url: "picturecid?type=1&&fid=" + msg,
+                            type: "GET",
+                            dataType: "json",
+                            success: function (msg2) {
+                                layer.msg("操作成功", {icon: 1, time: 3000}, function () {
+                                    setTimeout(function () {
+                                        layer.closeAll();
+                                    }, 200);
+                                    //  console.log(msg.resp_code)
+                                    // parent.layui.layer.closeAll();
+                                    //parent.window.location.href = "skip?table=brand";
+                                });
+                            }
+                        });
+                    }
+
                 },
                 error: function (error) {
                     alert("异常")

@@ -1,6 +1,5 @@
 package com.jiebao.jpmp.controller;
 
-import com.central.common.model.Result;
 import com.github.pagehelper.PageInfo;
 import com.jiebao.jpmp.model.*;
 import com.jiebao.jpmp.service.*;
@@ -55,14 +54,14 @@ public class JpmpParentController {
 
 
     @PostMapping("/saveStair")
-    public Result saveStair(JpmpStair jpmpStair) {
-        return jpmpStairService.saveOrUpdate(jpmpStair) ? Result.succeed("操作成功") : Result.failed("异常");
+    public String saveStair(JpmpStair jpmpStair) {
+        return jpmpStairService.saveOrUpdate(jpmpStair) ? "操作成功" : "异常";
     }
 
     @GetMapping("/deleteStair")
-    public Result deleteStair(Integer sid) {
+    public String deleteStair(Integer sid) {
         //删除一级————> > 删除二级&&三级 &&图片
-        return jpmpStairService.deleteStair(sid) ? Result.succeed("删除成功") : Result.failed("删除异常");
+        return jpmpStairService.deleteStair(sid) ? "删除成功" : "删除异常";
     }
 
     @GetMapping("/listSecond")
@@ -71,15 +70,15 @@ public class JpmpParentController {
     }
 
     @GetMapping("/deleteSecond")
-    public Result deleteSecond(Integer tid) {
+    public String deleteSecond(Integer tid) {
         // 删除二级--->>三级 &&图片
-        return jpmpSecondService.deleteSecond(tid) ? Result.succeed("删除成功") : Result.failed("删除异常");
+        return jpmpSecondService.deleteSecond(tid) ? "删除成功" : "删除异常";
     }
 
 
     @PostMapping("/saveSencond")
-    public Result saveSencond(JpmpSecond jpmpSecond) {
-        return jpmpSecondService.saveOrUpdate(jpmpSecond) ? Result.succeedWith(jpmpSecond.getTid(), 200, "操作成功") : Result.failed("异常");
+    public Integer saveSencond(JpmpSecond jpmpSecond) {
+        return jpmpSecondService.saveOrUpdate(jpmpSecond) ? jpmpSecond.getTid() : 0;
     }
 
     @GetMapping("/listCommodity")
@@ -88,13 +87,13 @@ public class JpmpParentController {
     }
 
     @GetMapping("/deleteCommodity")
-    public Result deleteCommodity(Integer cid) {
-        return jpmpCommodityService.deleteCommodity(cid) ? Result.succeed("删除成功") : Result.failed("删除异常");
+    public String deleteCommodity(Integer cid) {
+        return jpmpCommodityService.deleteCommodity(cid) ? "删除成功" : "删除异常";
     }
 
     @PostMapping("/saveCommodity")
-    public Result saveCommodity(JpmpCommodity jpmpCommodity) {
-        return jpmpCommodityService.saveOrUpdate(jpmpCommodity) ? Result.succeedWith(jpmpCommodity.getCid(), 200, "操作成功") : Result.failed("新增异常");
+    public Integer saveCommodity(JpmpCommodity jpmpCommodity) {
+        return jpmpCommodityService.saveOrUpdate(jpmpCommodity) ? jpmpCommodity.getCid() :0;
     }
 
     @GetMapping("listPicture")
@@ -103,8 +102,8 @@ public class JpmpParentController {
     }
 
     @GetMapping("/deletePictrue")
-    public Result deletePictrue(Integer pid) {
-        return jpmpPictureService.deletePictrue(pid) ? Result.succeed("删除成功") : Result.failed("删除异常");
+    public String deletePictrue(Integer pid) {
+        return jpmpPictureService.deletePictrue(pid) ? "删除成功" : "删除异常";
     }
 
 
