@@ -20,10 +20,8 @@
         <dependency>
             <groupId>com.jiebao</groupId>
             <artifactId>jiebao-common-spring-boot-starter</artifactId>
-            <version>1.3</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/static/jiebao-common-spring-boot-starter-1.3.0.jar</systemPath>
-        </dependency>
+            <version>1.3.0</version>
+          </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
