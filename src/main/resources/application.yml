@@ -24,3 +24,5 @@ pagehelper:
     supportMethodsArguments: true
     params: count=countSql
     autoRuntimeDialect: trues
+server:
+    port: 9099
