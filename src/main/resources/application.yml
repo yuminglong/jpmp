@@ -7,7 +7,7 @@ spring:
 
     #静态资源
     resources:
-        static-locations: classpath:/static/   ,file:/jpmp/picture/
+        static-locations: classpath:/static/   ,file:/shop/picture/
 
 
 mybatis-plus:
