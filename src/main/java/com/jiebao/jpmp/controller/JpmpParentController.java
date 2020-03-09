@@ -109,7 +109,7 @@ public class JpmpParentController {
 
     @PostMapping("/picture")
     public String upload(@RequestParam("file") MultipartFile file, @RequestParam(required = false) Integer type) throws Exception {
-        String pathString = "D:/jpmp/picture/";
+        String pathString = "/shop/picture/";
         String src = "";
         if (file != null) {
             src = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + "_" + file.getOriginalFilename();
@@ -118,7 +118,7 @@ public class JpmpParentController {
         if (type != null) {
             jpmpPicture.setType(type);
         }
-        jpmpPicture.setPname("http://127.0.0.1:8080/"+src);
+        jpmpPicture.setPname("http://114.116.141.49:9099/"+src);
         pathString = pathString + src;
         try {
             File files = new File(pathString);
