@@ -118,7 +118,7 @@ public class JpmpParentController {
         if (type != null) {
             jpmpPicture.setType(type);
         }
-        jpmpPicture.setPname("http://114.116.141.49:9099/"+src);
+        jpmpPicture.setPname("http://114.116.15.213:9099/"+src);
         pathString = pathString + src;
         try {
             File files = new File(pathString);
