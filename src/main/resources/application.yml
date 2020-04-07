@@ -13,7 +13,7 @@ spring:
 mybatis-plus:
   mapper-locations: classpath:/mapper/*.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: com.jiebao.model
+  typeAliasesPackage: com.jiebao.jpmp.model
   global-config:
     db-config:
       id-type: auto
@@ -26,8 +26,11 @@ pagehelper:
   autoRuntimeDialect: trues
 server:
   port: 9099
-  https:
-    ssl.key-store: classpath:tomcat.keystore
-    ssl.key-store-password: lkmtakai
-    ssl.keyStoreType: JKS
-    ssl.keyAlias: tomcat
+  ssl:
+    key-store: classpath:static/tomcat.keystore
+    key-store-password: lkmtakai
+    keyStoreType: JKS
+    key-alias: tomcat
+
+
+
