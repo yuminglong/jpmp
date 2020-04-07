@@ -32,5 +32,5 @@ server:
     keyStoreType: JKS
     key-alias: tomcat
 
-
+#AppSecret:35282bbaab2e636746036ae9b431bc37
 
