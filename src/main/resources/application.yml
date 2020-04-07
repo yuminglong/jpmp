@@ -1,28 +1,33 @@
 spring:
-    datasource:
-       # driver-class-name: com.mysql.jdbc.Driver
-        url: jdbc:mysql://114.116.174.5:3306/jpmp?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
-        username: root
-        password: jiebao@2008
+  datasource:
+    # driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://114.116.174.5:3306/jpmp?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: jiebao@2008
 
-    #静态资源
-    resources:
-        static-locations: classpath:/static/   ,file:/shop/picture/
+  #静态资源
+  resources:
+    static-locations: classpath:/static/   ,file:/shop/picture/
 
 
 mybatis-plus:
-    mapper-locations: classpath:/mapper/*.xml
-    #实体扫描，多个package用逗号或者分号分隔
-    typeAliasesPackage: com.jiebao.model
-    global-config:
-        db-config:
-            id-type: auto
+  mapper-locations: classpath:/mapper/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.jiebao.model
+  global-config:
+    db-config:
+      id-type: auto
 
 pagehelper:
-    helperDialect: mysql
-    reasonable: true
-    supportMethodsArguments: true
-    params: count=countSql
-    autoRuntimeDialect: trues
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+  autoRuntimeDialect: trues
 server:
-    port: 9099
+  port: 9099
+  https:
+    ssl.key-store: classpath:tomcat.keystore
+    ssl.key-store-password: lkmtakai
+    ssl.keyStoreType: JKS
+    ssl.keyAlias: tomcat

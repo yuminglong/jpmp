@@ -5,6 +5,7 @@ import com.jiebao.jpmp.model.*;
 import com.jiebao.jpmp.service.*;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.ibatis.io.ResolverUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -93,7 +94,7 @@ public class JpmpParentController {
 
     @PostMapping("/saveCommodity")
     public Integer saveCommodity(JpmpCommodity jpmpCommodity) {
-        return jpmpCommodityService.saveOrUpdate(jpmpCommodity) ? jpmpCommodity.getCid() :0;
+        return jpmpCommodityService.saveOrUpdate(jpmpCommodity) ? jpmpCommodity.getCid() : 0;
     }
 
     @GetMapping("listPicture")
@@ -118,7 +119,7 @@ public class JpmpParentController {
         if (type != null) {
             jpmpPicture.setType(type);
         }
-        jpmpPicture.setPname("http://114.116.15.213:9099/"+src);
+        jpmpPicture.setPname("http://114.116.15.213:9099/" + src);
         pathString = pathString + src;
         try {
             File files = new File(pathString);
@@ -152,6 +153,8 @@ public class JpmpParentController {
         jpmpCommodityService.picturecid(type, fid);
         return true;
     }
+
+
 
 
 }
