@@ -37,6 +37,9 @@ public class JpmpParentController {
     @Autowired
     private JpmpUserService jpmpUserService;
 
+    @Autowired
+    private JpmpLinkmanService jpmpLinkmanService;
+
 
     @PostMapping("/login")
     public boolean login(JpmpUser user) {
@@ -154,7 +157,15 @@ public class JpmpParentController {
         return true;
     }
 
+    @PostMapping("/UpdateLinkman")
+    public boolean UpdateLinkman(JpmpLinkman jpmpLinkman) {
+        return jpmpLinkmanService.updateById(jpmpLinkman);
+    }
 
+    @GetMapping("/Linkman")
+    public JpmpLinkman Linkman() {
+        return jpmpLinkmanService.list().get(0);
+    }
 
 
 }
