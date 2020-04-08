@@ -58,14 +58,14 @@ public class JpmpParentController {
 
 
     @PostMapping("/saveStair")
-    public String saveStair(JpmpStair jpmpStair) {
-        return jpmpStairService.saveOrUpdate(jpmpStair) ? "操作成功" : "异常";
+    public Boolean saveStair(JpmpStair jpmpStair) {
+        return jpmpStairService.saveOrUpdate(jpmpStair) ? true: false;
     }
 
     @GetMapping("/deleteStair")
-    public String deleteStair(Integer sid) {
+    public Boolean deleteStair(Integer sid) {
         //删除一级————> > 删除二级&&三级 &&图片
-        return jpmpStairService.deleteStair(sid) ? "删除成功" : "删除异常";
+        return jpmpStairService.deleteStair(sid)  ? true: false;
     }
 
     @GetMapping("/listSecond")
@@ -74,9 +74,9 @@ public class JpmpParentController {
     }
 
     @GetMapping("/deleteSecond")
-    public String deleteSecond(Integer tid) {
+    public Boolean deleteSecond(Integer tid) {
         // 删除二级--->>三级 &&图片
-        return jpmpSecondService.deleteSecond(tid) ? "删除成功" : "删除异常";
+        return jpmpSecondService.deleteSecond(tid) ? true: false;
     }
 
 
@@ -91,8 +91,8 @@ public class JpmpParentController {
     }
 
     @GetMapping("/deleteCommodity")
-    public String deleteCommodity(Integer cid) {
-        return jpmpCommodityService.deleteCommodity(cid) ? "删除成功" : "删除异常";
+    public Boolean deleteCommodity(Integer cid) {
+        return jpmpCommodityService.deleteCommodity(cid) ? true: false;
     }
 
     @PostMapping("/saveCommodity")
@@ -106,8 +106,8 @@ public class JpmpParentController {
     }
 
     @GetMapping("/deletePictrue")
-    public String deletePictrue(Integer pid) {
-        return jpmpPictureService.deletePictrue(pid) ? "删除成功" : "删除异常";
+    public Boolean deletePictrue(Integer pid) {
+        return jpmpPictureService.deletePictrue(pid)  ? true: false;
     }
 
 
