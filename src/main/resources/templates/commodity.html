@@ -137,12 +137,14 @@
                   //上传完毕
               }
           });*/
+        var fid=0;
+
         upload.render({
             elem: '#test2'
             , url: 'picture'
             , multiple: true,
             accept: "image",
-            auto: false,
+            auto: true,
             number: 0,
             acceptMime: 'image/*',
             bindAction: "#updatepwd",
@@ -159,7 +161,15 @@
                     });
                 });
             }, allDone: function (obj) { //当文件全部被提交后，才触发
-                // alert('已成功上传'+obj.total+'张图片');
+                 //alert('已成功上传'+obj.total+'张图片');
+                $.ajax({//绑定
+                    url: "picturecid?type=2&&fid=" + fid,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (msg2) {
+
+                    }
+                });
             }
         })
 
@@ -315,8 +325,7 @@
                 $("#intro").val(data.intro);
                 $("#title").val(data.title);
                 $("#cid").val(data.cid);
-
-
+                fid=data.cid;
                 $.ajax({
                     url: 'listPicture?type=2&&fid=' + data.cid,
                     type: 'get',
@@ -365,16 +374,16 @@
                 success: function (msg) {
                     // console.log(msg.datas)
                     //layer.closeAll();
-                    if (msg != 0) {
+                   /* if (msg != 0) {
                         $.ajax({//绑定
                             url: "picturecid?type=2&&fid=" + msg,
                             type: "GET",
                             dataType: "json",
                             success: function (msg2) {
-                                layer.msg("操作成功", {icon: 1, time: 3000}, function () {
+                                layer.msg("操作成功", {icon: 1, time: 2000}, function () {
                                     setTimeout(function () {
                                         layer.closeAll();
-                                    }, 400);
+                                    }, 4000);
                                     //  console.log(msg.resp_code)
                                     // parent.layui.layer.closeAll();
                                     //parent.window.location.href = "skip?table=brand";
@@ -385,7 +394,10 @@
                         layer.msg("图片未绑定", {icon: 1, time: 3000}, function () {
                             layer.closeAll();
                         });
-                    }
+                    }*/
+                    layer.msg("操作成功", {icon: 1, time: 2000}, function () {
+                        layer.closeAll();
+                    });
 
 
                 },
