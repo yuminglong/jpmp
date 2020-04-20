@@ -1,9 +1,13 @@
 spring:
   datasource:
     # driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://114.116.174.5:3306/jpmp?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
+#    url: jdbc:mysql://114.116.174.5:3306/jpmp?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: jiebao@2008
+    url: jdbc:mysql://127.0.0.1/jpmp?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
-    password: jiebao@2008
+    password: 123456
+
 
   #静态资源
   resources:

@@ -16,7 +16,7 @@
         <div class="layui-row clearfix">
             <label class="form-label layui-col-xs4 layui-col-sm3">品牌：</label>
             <div class="formControls layui-col-xs8">
-                <select name="sid" deleteCommodity id="sid" lay-filter="search_typestair">
+                <select name="sid"    id="sid" lay-filter="search_typestair" lay-verify="required"  >
                     <option value="">请选择品牌</option>
                 </select>
             </div>
@@ -24,7 +24,7 @@
         <div class="layui-row clearfix">
             <label class="form-label layui-col-xs4 layui-col-sm3">种类：</label>
             <div class="formControls layui-col-xs8">
-                <select name="tid" lay-filter="search_type" class="secondsel">
+                <select name="tid"  lay-filter="search_type" class="secondsel" lay-verify="required">
                     <option value="">请选择种类</option>
                 </select>
             </div>
@@ -144,7 +144,7 @@
             , url: 'picture'
             , multiple: true,
             accept: "image",
-            auto: true,
+            auto: false,
             number: 0,
             acceptMime: 'image/*',
             bindAction: "#updatepwd",

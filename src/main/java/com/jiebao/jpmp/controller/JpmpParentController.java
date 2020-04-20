@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,7 +43,11 @@ public class JpmpParentController {
 
 
     @PostMapping("/login")
-    public boolean login(JpmpUser user) {
+    public boolean login(JpmpUser user, HttpSession session) {
+        if (jpmpUserService.login(user)){
+            session.setAttribute("user", user);
+        }
+
         return jpmpUserService.login(user);
     }
 
@@ -92,7 +97,8 @@ public class JpmpParentController {
 
     @GetMapping("/deleteCommodity")
     public Boolean deleteCommodity(Integer cid) {
-        return jpmpCommodityService.deleteCommodity(cid) ? true : false;
+        Integer pid = cid;
+        return jpmpCommodityService.deleteCommodity(cid)&&jpmpPictureService.deletePictrue(pid) ? true : false;
     }
 
     @PostMapping("/saveCommodity")
@@ -122,10 +128,14 @@ public class JpmpParentController {
         if (type != null) {
             jpmpPicture.setType(type);
         }
-        jpmpPicture.setPname("https://yhgc.youhuan.net/" + src);
+        //jpmpPicture.setPname("https://yhgc.youhuan.net/" + src);
+        jpmpPicture.setPname("https://127.0.0.1:9099/" + src);
+
+        //jpmpPicture.setPname(" E:\\shop\\picture\\" + src);
         pathString = pathString + src;
         try {
-            File files = new File(pathString);
+            //File files = new File(pathString);
+            File files = new File(new File(pathString).getAbsolutePath());
             if (!files.getParentFile().exists()) {
                 files.getParentFile().mkdirs();
             }
